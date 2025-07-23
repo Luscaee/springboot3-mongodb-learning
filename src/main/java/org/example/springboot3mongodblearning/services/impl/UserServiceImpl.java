@@ -1,0 +1,42 @@
+package org.example.springboot3mongodblearning.services.impl;
+
+import lombok.RequiredArgsConstructor;
+import org.example.springboot3mongodblearning.domain.User;
+import org.example.springboot3mongodblearning.dto.UserCreationRequest;
+import org.example.springboot3mongodblearning.dto.UserUpdateRequest;
+import org.example.springboot3mongodblearning.repository.UserRepository;
+import org.example.springboot3mongodblearning.services.UserService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
+
+    private final UserRepository userRepository;
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User findById(String id) {
+        return null;
+    }
+
+    @Override
+    public User create(UserCreationRequest dto) {
+        return null;
+    }
+
+    @Override
+    public User update(String id, UserUpdateRequest dto) {
+        return null;
+    }
+
+    @Override
+    public void delete(String id) {
+        //
+    }
+}
