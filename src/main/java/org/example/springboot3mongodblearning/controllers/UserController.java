@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.springboot3mongodblearning.domain.User;
 import org.example.springboot3mongodblearning.dto.UserCreationRequest;
 import org.example.springboot3mongodblearning.dto.UserResponse;
+import org.example.springboot3mongodblearning.dto.UserUpdateRequest;
 import org.example.springboot3mongodblearning.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,13 @@ public class UserController {
         User obj = userService.create(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> update(@PathVariable String id, @RequestBody UserUpdateRequest dto) {
+        User obj = userService.update(id, dto);
+        UserResponse userResponse = UserResponse.fromUser(obj);
+        return ResponseEntity.ok(userResponse);
     }
 
     @DeleteMapping("/{id}")

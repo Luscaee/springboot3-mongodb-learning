@@ -43,7 +43,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(String id, UserUpdateRequest dto) {
-        return null;
+        User existingUser = findById(id);
+        existingUser.setName(dto.getName());
+        existingUser.setEmail(dto.getEmail());
+        return userRepository.save(existingUser);
     }
 
     @Override
