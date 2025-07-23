@@ -6,6 +6,7 @@ import org.example.springboot3mongodblearning.dto.UserCreationRequest;
 import org.example.springboot3mongodblearning.dto.UserUpdateRequest;
 import org.example.springboot3mongodblearning.repository.UserRepository;
 import org.example.springboot3mongodblearning.services.UserService;
+import org.example.springboot3mongodblearning.services.exception.BusinessException;
 import org.example.springboot3mongodblearning.services.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserCreationRequest dto) {
-        return null;
+        userRepository.findByEmail(dto.getEmail()).ifPresent(user -> {
+            throw new BusinessException("Email already exists");
+        });
+
+        User user = UserCreationRequest.fromDto(dto);
+        return userRepository.save(user);
     }
 
     @Override
