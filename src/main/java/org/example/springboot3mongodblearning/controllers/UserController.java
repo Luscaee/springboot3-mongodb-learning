@@ -6,6 +6,7 @@ import org.example.springboot3mongodblearning.dto.UserResponse;
 import org.example.springboot3mongodblearning.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,4 +25,11 @@ public class UserController {
         List<UserResponse> responseList = userList.stream().map(UserResponse::fromUser).toList();
         return ResponseEntity.ok(responseList);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> findById(@PathVariable String id) {
+        User user = userService.findById(id);
+        return ResponseEntity.ok(UserResponse.fromUser(user));
+    }
+
 }

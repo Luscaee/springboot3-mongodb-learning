@@ -6,6 +6,7 @@ import org.example.springboot3mongodblearning.dto.UserCreationRequest;
 import org.example.springboot3mongodblearning.dto.UserUpdateRequest;
 import org.example.springboot3mongodblearning.repository.UserRepository;
 import org.example.springboot3mongodblearning.services.UserService;
+import org.example.springboot3mongodblearning.services.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(String id) {
-        return null;
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            throw new ObjectNotFoundException("Object not found");
+        }
+        return user;
     }
 
     @Override
