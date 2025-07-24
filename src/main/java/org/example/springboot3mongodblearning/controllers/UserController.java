@@ -2,9 +2,9 @@ package org.example.springboot3mongodblearning.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.example.springboot3mongodblearning.domain.User;
-import org.example.springboot3mongodblearning.dto.UserCreationRequest;
-import org.example.springboot3mongodblearning.dto.UserResponse;
-import org.example.springboot3mongodblearning.dto.UserUpdateRequest;
+import org.example.springboot3mongodblearning.dto.UserCreationRequestDto;
+import org.example.springboot3mongodblearning.dto.UserResponseDto;
+import org.example.springboot3mongodblearning.dto.UserUpdateRequestDto;
 import org.example.springboot3mongodblearning.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,30 +21,30 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAll() {
+    public ResponseEntity<List<UserResponseDto>> findAll() {
         List<User> userList = userService.findAll();
-        List<UserResponse> responseList = userList.stream().map(UserResponse::fromUser).toList();
+        List<UserResponseDto> responseList = userList.stream().map(UserResponseDto::fromUser).toList();
         return ResponseEntity.ok(responseList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> findById(@PathVariable String id) {
+    public ResponseEntity<UserResponseDto> findById(@PathVariable String id) {
         User user = userService.findById(id);
-        return ResponseEntity.ok(UserResponse.fromUser(user));
+        return ResponseEntity.ok(UserResponseDto.fromUser(user));
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody UserCreationRequest dto) {
+    public ResponseEntity<Void> create(@RequestBody UserCreationRequestDto dto) {
         User obj = userService.create(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> update(@PathVariable String id, @RequestBody UserUpdateRequest dto) {
+    public ResponseEntity<UserResponseDto> update(@PathVariable String id, @RequestBody UserUpdateRequestDto dto) {
         User obj = userService.update(id, dto);
-        UserResponse userResponse = UserResponse.fromUser(obj);
-        return ResponseEntity.ok(userResponse);
+        UserResponseDto userResponseDto = UserResponseDto.fromUser(obj);
+        return ResponseEntity.ok(userResponseDto);
     }
 
     @DeleteMapping("/{id}")
